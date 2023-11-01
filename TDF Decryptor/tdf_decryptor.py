@@ -30,6 +30,16 @@ def settings_dependent(content):
     return content[content_start:content_start+content_len]
 
 
+def settingss(content):
+    salt_len_start = 8
+    salt_start = salt_len_start + 4
+    salt_len = int.from_bytes(content[salt_len_start:salt_start], 'big')
+    content_len_start = salt_start + salt_len
+    content_start = content_len_start + 4
+    content_len = int.from_bytes(content[content_len_start:content_start], 'big')
+    return content[content_start:content_start+content_len]
+
+
 def tdf_decrypt(filetype, filename, path):
     match filetype:
         case "key_datas":
@@ -43,6 +53,16 @@ def tdf_decrypt(filetype, filename, path):
             print("\n==> settingss successfully decrypted!")
             with open(f"{OUT_PATH}\\keys\\settingss.dat", "wb") as outfile:
                 outfile.write(settingss_key)
+            
+            sf.tdf_file_signature_check(path)
+
+            with open(path, "rb") as infile:
+                encrypted_content = infile.read()
+            content_to_decrypt = settingss(encrypted_content)
+            content = sf.decrypt_local(content_to_decrypt, bytearray(settingss_key))
+            print(f"\n==> {filename} successfully decrypted!")
+            with open(f"{OUT_PATH}\\decrypted\\{filename}", "wb") as outfile:
+                outfile.write(content)
 
         case "key_datas_dependent":
             with open(f"{OUT_PATH}\\keys\\key_datas.dat", "rb") as keyfile:
