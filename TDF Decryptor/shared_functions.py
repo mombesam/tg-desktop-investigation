@@ -152,6 +152,12 @@ def decrypt_key_datas(path, passcode):
 
     cur += 0x04
     localkey_block = key_datas[cur:cur+localkey_block_len]
+	
+    cur += localkey_block_len
+    info_len = int.from_bytes(key_datas[cur:cur+4], 'big')
+
+    cur += 0x04
+    info = key_datas[cur:cur+info_len]
 
     base_key = create_base_key(salt, passcode)
 
@@ -160,7 +166,7 @@ def decrypt_key_datas(path, passcode):
     except ValueError as e:
         exit(f"Error while decrypting key_datas file: {e}")
 
-    return localkey
+    return localkey, info
 
 
 ####################################
