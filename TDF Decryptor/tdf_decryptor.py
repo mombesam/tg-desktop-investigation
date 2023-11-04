@@ -43,10 +43,15 @@ def settingss(content):
 def tdf_decrypt(filetype, filename, path):
     match filetype:
         case "key_datas":
-            key_datas_key = sf.decrypt_key_datas(path, bytes(PASSCODE, "ascii"))
+            key_datas_key, key_datas_info = sf.decrypt_key_datas(path, bytes(PASSCODE, "ascii"))
             print("\n==> key_datas successfully decrypted!")
             with open(f"{OUT_PATH}\\keys\\key_datas.dat", "wb") as outfile:
                 outfile.write(key_datas_key)
+
+            content = sf.decrypt_local(key_datas_info, bytearray(key_datas_key))
+            print(f"\n==> {filename} (info) successfully decrypted!")
+            with open(f"{OUT_PATH}\\decrypted\\{filename}_info", "wb") as outfile:
+                outfile.write(content)
 
         case "settingss":
             settingss_key = sf.decrypt_settingss(path)
