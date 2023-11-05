@@ -13,15 +13,15 @@
 			<Value-Decoded>TDF$</Value-Decoded>
 			<Endianness>Big-endian</Endianness>
 		</Data-Element>
-    <Data-Element>			
-					<Name>Version</Name>
-					<Description>Telegram Desktop version.</Description>
-					<Offset>0x04</Offset>
-					<Size>4 bytes</Size>
-					<Data-Type>Int (32bit)</Data-Type>
-					<Value-Hex>*</Value-Hex>
-					<Value-Decoded>*</Value-Decoded>
-					<Endianness>Little-endian</Endianness>
+		<Data-Element>			
+			<Name>Version</Name>
+			<Description>Telegram Desktop version.</Description>
+			<Offset>0x04</Offset>
+			<Size>4 bytes</Size>
+			<Data-Type>Int (32bit)</Data-Type>
+			<Value-Hex>*</Value-Hex>
+			<Value-Decoded>*</Value-Decoded>
+			<Endianness>Little-endian</Endianness>
 		</Data-Element>
 		<Data-Block>
 			<Name>Data</Name>
