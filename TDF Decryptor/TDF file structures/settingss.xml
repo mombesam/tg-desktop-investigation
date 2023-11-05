@@ -1,0 +1,85 @@
+<?xml version="1.0"?>
+<File>
+	<Name>settingss</Name>
+	<Description>This file stores various local settings.</Description>
+	<Elements>
+		<Data-Element>
+			<Name>File header</Name>
+			<Description>Header of TDF file.</Description>
+			<Offset>0x00</Offset>
+			<Size>4 bytes</Size>
+			<Data-Type>String (ASCII)</Data-Type>
+			<Value-Hex>54444624</Value-Hex>
+			<Value-Decoded>TDF$</Value-Decoded>
+			<Endianness>Big-endian</Endianness>
+		</Data-Element>
+		<Data-Element>			
+			<Name>Version</Name>
+			<Description>Telegram Desktop version.</Description>
+			<Offset>0x04</Offset>
+			<Size>4 bytes</Size>
+			<Data-Type>Int (32bit)</Data-Type>
+			<Value-Hex>*</Value-Hex>
+			<Value-Decoded>*</Value-Decoded>
+			<Endianness>Little-endian</Endianness>
+		</Data-Element>
+		<Data-Block>
+			<Name>Data</Name>
+			<Elements>
+				<Data-Element>
+					<Name>Salt size</Name>
+					<Description>Size (in bytes) of cryptographic salt for settings key generation.</Description>
+					<Offset>0x08</Offset>
+					<Size>4 bytes</Size>
+					<Data-Type>Int (32bit)</Data-Type>
+					<Value-Hex>00000020</Value-Hex>
+					<Value-Decoded>32</Value-Decoded>
+					<Endianness>Big-endian</Endianness>
+				</Data-Element>
+				<Data-Element>
+					<Name>Salt</Name>
+					<Description>Cryptographic salt for settings key generation.</Description>
+					<Offset>0x0C</Offset>
+					<Size>32 bytes</Size>
+					<Data-Type>Binary</Data-Type>
+					<Value-Hex>*</Value-Hex>
+					<Value-Decoded>*</Value-Decoded>
+					<Endianness></Endianness>
+				</Data-Element>
+				<Data-Element>
+					<Name>Content size</Name>
+					<Description>Size (in bytes) of encrypted file content.</Description>
+					<Offset>0x2C</Offset>
+					<Size>4 bytes</Size>
+					<Data-Type>Int (32bit)</Data-Type>
+					<Value-Hex>*</Value-Hex>
+					<Value-Decoded>*</Value-Decoded>
+					<Endianness>Big-endian</Endianness>
+				</Data-Element>
+				<Data-Element>
+					<Name>Content</Name>
+					<Description>File content (settings).</Description>
+					<Offset>0x30</Offset>
+					<Size>*</Size>
+					<Data-Type>Binary</Data-Type>
+					<Value-Hex>*</Value-Hex>
+					<Value-Decoded>*</Value-Decoded>
+					<Endianness></Endianness>
+				</Data-Element>
+			</Elements>
+		</Data-Block>
+		<Data-Element>
+			<Name>Checksum</Name>
+			<Description>
+				Checksum for file integrity verification.
+				To calculate: md5(data + length of data (little-endian unsigned int) + version + file header).
+			</Description>
+			<Offset>0x30 + content size</Offset>
+			<Size>16 bytes</Size>
+			<Data-Type>Binary</Data-Type>
+			<Value-Hex>*</Value-Hex>
+			<Value-Decoded>*</Value-Decoded>
+			<Endianness></Endianness>
+		</Data-Element>
+	</Elements>
+</File>
