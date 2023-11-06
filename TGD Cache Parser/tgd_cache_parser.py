@@ -1,11 +1,3 @@
-# filename          : tgd_cache_parser.py
-# description       : Tool to parse decrypted Telegram Desktop cache (for decryption, see: https://github.com/lilydjwg/telegram-cache-decryption/)
-# author            : Samuele Mombelli
-# email             : Samuele.Mombelli@unil.ch
-# date              : 17.10.2023
-# usage             : python tgd_cache_parser.py -p DECRYPTED_CACHE_PATH -o OUTPUT_PATH
-# py version        : 3.11.4
-
 import os
 import shutil
 import sys
