@@ -1,0 +1,70 @@
+<?xml version="1.0"?>
+<File>
+	<Name>*</Name>
+	<Type>settingss dependent</Type>
+	<Description>
+		This category describes multiple files which are encrypted with the encryption key extracted from the file "settingss".
+		These are all TDF files contained in the "tdata" folder that are not "key_datas", "settingss" or key_datas dependent files.
+		They all have a 16-character random alphanumeric name followed by the letter 's' (e.g., 60785DC1D5702333s).
+	</Description>
+	<Elements>
+		<Data-Element>
+			<Name>File header</Name>
+			<Description>Header of TDF file.</Description>
+			<Offset>0x00</Offset>
+			<Size>4 bytes</Size>
+			<Data-Type>String (ASCII)</Data-Type>
+			<Value-Hex>54444624</Value-Hex>
+			<Value-Decoded>TDF$</Value-Decoded>
+			<Endianness>Big-endian</Endianness>
+		</Data-Element>
+		<Data-Element>			
+			<Name>Version</Name>
+			<Description>Telegram Desktop version.</Description>
+			<Offset>0x04</Offset>
+			<Size>4 bytes</Size>
+			<Data-Type>Int (32bit)</Data-Type>
+			<Value-Hex>*</Value-Hex>
+			<Value-Decoded>*</Value-Decoded>
+			<Endianness>Little-endian</Endianness>
+		</Data-Element>
+		<Data-Block>
+			<Name>Data</Name>
+			<Elements>
+				<Data-Element>
+					<Name>Content size</Name>
+					<Description>Size (in bytes) of encrypted file content (encrypted with settingss key).</Description>
+					<Offset>0x08</Offset>
+					<Size>4 bytes</Size>
+					<Data-Type>Int (32bit)</Data-Type>
+					<Value-Hex>*</Value-Hex>
+					<Value-Decoded>*</Value-Decoded>
+					<Endianness>Big-endian</Endianness>
+				</Data-Element>
+				<Data-Element>
+					<Name>Content</Name>
+					<Description>Encrypted file content.</Description>
+					<Offset>0x0C</Offset>
+					<Size>*</Size>
+					<Data-Type>Binary</Data-Type>
+					<Value-Hex>*</Value-Hex>
+					<Value-Decoded>*</Value-Decoded>
+					<Endianness></Endianness>
+				</Data-Element>
+			</Elements>
+		</Data-Block>
+		<Data-Element>
+			<Name>Checksum</Name>
+			<Description>
+				Checksum for file integrity verification.
+				To calculate: md5(data + length of data (little-endian unsigned int) + version + file header).
+			</Description>
+			<Offset>0x0C + content size</Offset>
+			<Size>16 bytes</Size>
+			<Data-Type>Binary</Data-Type>
+			<Value-Hex>*</Value-Hex>
+			<Value-Decoded>*</Value-Decoded>
+			<Endianness></Endianness>
+		</Data-Element>
+	</Elements>
+</File>
