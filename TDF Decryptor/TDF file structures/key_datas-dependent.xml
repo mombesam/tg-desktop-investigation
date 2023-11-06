@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<File>
+	<Name>*</Name>
+	<Type>key_datas dependent</Type>
+	<Description>
+		This category describes multiple files which are encrypted with the local master key stored in the file key_datas.
+		These files are contained in one of the user folders (one folder for each logged-in user profile), for example:
+			C:\Users\*user*\AppData\Roaming\Telegram Desktop\tdata\D877F783D5D3EF8C
+		They all have a 16-character random alphanumeric name followed by the letter 's', except for the "configs" and "maps"
+		files (the latter is described in a separate structure).
+		Other files that fall into this category are located in the "tdata" folder and have the same name as the user folder
+		with a final 's' (e.g., D877F783D5D3EF8Cs).
+	</Description>
+	<Elements>
+		<Data-Element>
+			<Name>File header</Name>
+			<Description>Header of TDF file.</Description>
+			<Offset>0x00</Offset>
+			<Size>4 bytes</Size>
+			<Data-Type>String (ASCII)</Data-Type>
+			<Value-Hex>54444624</Value-Hex>
+			<Value-Decoded>TDF$</Value-Decoded>
+			<Endianness>Big-endian</Endianness>
+		</Data-Element>
+		<Data-Element>			
+			<Name>Version</Name>
+			<Description>Telegram Desktop version.</Description>
+			<Offset>0x04</Offset>
+			<Size>4 bytes</Size>
+			<Data-Type>Int (32bit)</Data-Type>
+			<Value-Hex>*</Value-Hex>
+			<Value-Decoded>*</Value-Decoded>
+			<Endianness>Little-endian</Endianness>
+		</Data-Element>
+		<Data-Block>
+			<Name>Data</Name>
+			<Elements>
+				<Data-Element>
+					<Name>Content size</Name>
+					<Description>Size (in bytes) of encrypted file content (encrypted with local master key).</Description>
+					<Offset>0x08</Offset>
+					<Size>4 bytes</Size>
+					<Data-Type>Int (32bit)</Data-Type>
+					<Value-Hex>*</Value-Hex>
+					<Value-Decoded>*</Value-Decoded>
+					<Endianness>Big-endian</Endianness>
+				</Data-Element>
+				<Data-Element>
+					<Name>Content</Name>
+					<Description>Encrypted file content.</Description>
+					<Offset>0x0C</Offset>
+					<Size>*</Size>
+					<Data-Type>Binary</Data-Type>
+					<Value-Hex>*</Value-Hex>
+					<Value-Decoded>*</Value-Decoded>
+					<Endianness></Endianness>
+				</Data-Element>
+			</Elements>
+		</Data-Block>
+		<Data-Element>
+			<Name>Checksum</Name>
+			<Description>
+				Checksum for file integrity verification.
+				To calculate: md5(data + length of data (little-endian unsigned int) + version + file header).
+			</Description>
+			<Offset>0x0C + content size</Offset>
+			<Size>16 bytes</Size>
+			<Data-Type>Binary</Data-Type>
+			<Value-Hex>*</Value-Hex>
+			<Value-Decoded>*</Value-Decoded>
+			<Endianness></Endianness>
+		</Data-Element>
+	</Elements>
+</File>
