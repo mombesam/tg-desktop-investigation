@@ -18,6 +18,6 @@ A Python tool that allows to decrypt TDFs (Telegram Desktop Files) contained in 
 A set of XML file structures describing the different TDF files is also available in _TDF file structures_.  
 **Note**: the local passkey for Telegram Desktop must be known to decrypt TDFs.  
 **Contributions**: main functions are adapted from [telegram-cache-decryption by lilydjwg](https://github.com/lilydjwg/telegram-cache-decryption) and [TelegramDesktop_Decrypt by Py0zz1](https://github.com/Py0zz1/TelegramDesktop_Decrypt).  
-**Usage**: `python tdf_decryptor.py -p tdata_FOLDER_PATH -o OUTPUT_PATH -k LOCAL_KEY`  
+**Usage**: `python tdf_decryptor.py -p Telegram_Desktop_FOLDER_PATH -o OUTPUT_PATH -k LOCAL_KEY`  
 **Requirements:** 
 + tgcrypto
