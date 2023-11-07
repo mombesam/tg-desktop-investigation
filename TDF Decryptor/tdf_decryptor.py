@@ -39,11 +39,19 @@ def settingss(content):
     return content[content_start:content_start+content_len]
 
 
+def is_key_datas_dependent(filename, user_folders, path):
+    return ("maps" in filename
+            or "configs" in filename
+            or (filename[:-1] in user_folders.keys())
+            or (filename[:-3] in user_folders.keys())
+            or (os.path.basename(os.path.dirname(path)) in user_folders.keys()))
+
+
 def tdf_decrypt(filetype, filename, path):
     match filetype:
         case "key_datas":
             key_datas_key, key_datas_info = sf.decrypt_key_datas(path, bytes(PASSCODE, "ascii"))
-            print("\n==> key_datas successfully decrypted!")
+            print("\n==> key_datas key successfully extracted!")
             with open(f"{OUT_PATH}\\keys\\key_datas.dat", "wb") as outfile:
                 outfile.write(key_datas_key)
 
@@ -54,10 +62,10 @@ def tdf_decrypt(filetype, filename, path):
 
         case "settingss":
             settingss_key = sf.decrypt_settingss(path)
-            print("\n==> settingss successfully decrypted!")
+            print("\n==> settingss key successfully extracted!")
             with open(f"{OUT_PATH}\\keys\\settingss.dat", "wb") as outfile:
                 outfile.write(settingss_key)
-            
+
             sf.tdf_file_signature_check(path)
 
             with open(path, "rb") as infile:
@@ -76,7 +84,7 @@ def tdf_decrypt(filetype, filename, path):
 
             with open(path, "rb") as infile:
                 encrypted_content = infile.read()
-            if filename == "maps":
+            if "maps" in filename:
                 content_to_decrypt = maps(encrypted_content)
             else:
                 content_to_decrypt = key_datas_dependent(encrypted_content)
@@ -109,19 +117,26 @@ if __name__ == '__main__':
     parser.add_argument('-k', '--passkey', help='local passkey for Telegram Desktop session', required=True)
     args = parser.parse_args()
 
-    datadir = args.path.replace("\\", "\\\\") + "\\tdata"
-    OUT_PATH = args.outdir.replace("\\", "\\\\")
+    datadir = args.path + "\\tdata"
+    OUT_PATH = args.outdir
     PASSCODE = args.passkey
-    tdf_files = dict()
-    base_tdf_files = ["key_datas", "settingss", "configs", "maps"]
-    user_folders = {1: "D877F783D5D3EF8C", 2: "A7FDF864FBC10B77", 3: "F8806DD0C461824F"}
 
-    for root, dirs, files in os.walk(datadir):
+    tdf_files = dict()
+    base_tdf_files = ["key_datas", "settingss"]
+    user_folders = {"D877F783D5D3EF8C": 1, "A7FDF864FBC10B77": 2, "F8806DD0C461824F": 3}
+
+    for root, _, files in os.walk(datadir):
         for filename in files:
             try:
                 with open(os.path.join(root, filename), "rb") as file_content:
                     if file_content.read(4) == b"TDF$":
-                        tdf_files[filename] = os.path.join(root, filename)
+                        if is_key_datas_dependent(filename, user_folders, os.path.join(root, filename)):
+                            if filename[:-1] in user_folders.keys():
+                                tdf_files[f"{filename}#{user_folders[filename[:-1]]}"] = os.path.join(root, filename)
+                            else:
+                                tdf_files[f"{filename}#{user_folders[os.path.basename(os.path.dirname(os.path.join(root, filename)))]}"] = os.path.join(root, filename)
+                        else:
+                            tdf_files[filename] = os.path.join(root, filename)
             except PermissionError as e:
                 print(f"Permission error: file '{filename}' ignored", file=sys.stdout)
 
@@ -134,11 +149,9 @@ if __name__ == '__main__':
 
     tdf_decrypt("key_datas", "key_datas", tdf_files["key_datas"])
     tdf_decrypt("settingss", "settingss", tdf_files["settingss"])
-    tdf_decrypt("key_datas_dependent", "configs", tdf_files["configs"])
-    tdf_decrypt("key_datas_dependent", "maps", tdf_files["maps"])
     for filename in tdf_files.keys():
         if filename not in base_tdf_files:
-            if (filename[:-1] in user_folders.values()) or os.path.basename(os.path.dirname(path(tdf_files[filename]))) in user_folders.values():
+            if is_key_datas_dependent(filename, user_folders, tdf_files[filename]):
                 tdf_decrypt("key_datas_dependent", filename, tdf_files[filename])
             else:
                 tdf_decrypt("settingss_dependent", filename, tdf_files[filename])
