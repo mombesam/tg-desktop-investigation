@@ -1,6 +1,6 @@
 # tg-desktop-investigation
 Set of tools and documentatio files for Telegram Desktop artifacts investigation.  
-_Last tested with Telegram Desktop v4.11.3_.
+_Last tested with Telegram Desktop v4.11.5_.
 
 
 ## General forensic workflow
