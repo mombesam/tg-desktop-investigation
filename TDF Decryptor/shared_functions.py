@@ -152,7 +152,7 @@ def decrypt_key_datas(path, passcode):
 
     cur += 0x04
     localkey_block = key_datas[cur:cur+localkey_block_len]
-	
+
     cur += localkey_block_len
     info_len = int.from_bytes(key_datas[cur:cur+4], 'big')
 
@@ -193,7 +193,7 @@ def decrypt_settingss(path):
         settingss = settingss_file.read()
 
     cur = 0x00
-    print("\n#### key_datas parse #####")
+    print("\n#### settingss_parse #####")
     header = settingss[cur:cur+4]
     print(f"[HEADER] {header.decode('utf-8')}")
 
