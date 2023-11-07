@@ -1,7 +1,6 @@
 import argparse
 import os
 import sys
-from pathlib import Path
 import shared_functions as sf
 
 
@@ -115,6 +114,7 @@ if __name__ == '__main__':
     PASSCODE = args.passkey
     tdf_files = dict()
     base_tdf_files = ["key_datas", "settingss", "configs", "maps"]
+    user_folders = {1: "D877F783D5D3EF8C", 2: "A7FDF864FBC10B77", 3: "F8806DD0C461824F"}
 
     for root, dirs, files in os.walk(datadir):
         for filename in files:
@@ -138,7 +138,7 @@ if __name__ == '__main__':
     tdf_decrypt("key_datas_dependent", "maps", tdf_files["maps"])
     for filename in tdf_files.keys():
         if filename not in base_tdf_files:
-            if ((os.path.exists(f"{datadir}\\{filename[:-1]}") and os.path.isdir(f"{datadir}\\{filename[:-1]}")) or Path(f"{tdf_files[filename]}").parent.absolute()) != Path(datadir):
+            if (filename[:-1] in user_folders.values()) or os.path.basename(os.path.dirname(path(tdf_files[filename]))) in user_folders.values():
                 tdf_decrypt("key_datas_dependent", filename, tdf_files[filename])
             else:
                 tdf_decrypt("settingss_dependent", filename, tdf_files[filename])
