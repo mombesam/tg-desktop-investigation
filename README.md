@@ -1,6 +1,6 @@
 # tg-desktop-investigation
 Set of tools and documentation files for Telegram Desktop artifacts investigation.  
-_Last tested with Telegram Desktop v4.11.5_.
+_Last tested with Telegram Desktop v4.11.5_.  
 **Requirements**:
 * Python 3.x
 * Windows OS
